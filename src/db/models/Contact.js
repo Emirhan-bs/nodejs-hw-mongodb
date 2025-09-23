@@ -5,7 +5,7 @@ const contactSchema = new mongoose.Schema(
     name: { type: String, required: true },
     phoneNumber: { type: String, required: true },
     email: { type: String },
-    isFavourite: { type: Boolean, default: false },
+    isFavourite: { type: Boolean, default: false }, // burayı düzelt
     contactType: {
       type: String,
       enum: ["work", "home", "personal"],
