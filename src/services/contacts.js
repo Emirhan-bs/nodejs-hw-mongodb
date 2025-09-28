@@ -1,24 +1,40 @@
-const Contact = require("../models/contact");
+import { ContactsCollection } from "../db/models/contact.js";
 
-const create = async (data) => {
-  return await Contact.create(data);
+export const getAllContacts = async () => {
+  const contacts = await ContactsCollection.find();
+  return contacts;
 };
 
-const getById = async (id) => {
-  return await Contact.findById(id);
+export const getContactById = async (contactId) => {
+  const contact = await ContactsCollection.findById(contactId);
+  return contact;
 };
 
-const updateById = async (id, data) => {
-  return await Contact.findByIdAndUpdate(id, data, { new: true });
+export const createContact = async (payload) => {
+  const contact = await ContactsCollection.create(payload);
+  return contact;
 };
 
-const deleteById = async (id) => {
-  return await Contact.findByIdAndDelete(id);
+export const updateContact = async (contactId, payload, options = {}) => {
+  const rawResult = await ContactsCollection.findOneAndUpdate(
+    { _id: contactId },
+    payload,
+    {
+      new: true,
+      includeResultMetadata: true,
+      ...options,
+    },
+  );
+
+  if (!rawResult || !rawResult.value) return null;
+
+  return rawResult.value;
 };
 
-module.exports = {
-  create,
-  getById,
-  updateById,
-  deleteById,
+export const deleteContact = async (contactId) => {
+  const contact = await ContactsCollection.findOneAndDelete({
+    _id: contactId,
+  });
+
+  return contact;
 };
