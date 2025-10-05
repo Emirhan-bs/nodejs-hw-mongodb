@@ -1,12 +1,19 @@
 import express from "express";
 import cors from "cors";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+
 import contactsRouter from "./routers/contacts.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { notFoundHandler } from "./middlewares/notFoundHandler.js";
 
-const PORT = Number(process.env.PORT) || 3000;
+dotenv.config();
 
-export const setupServer = () => {
+const PORT = Number(process.env.PORT) || 3000;
+const { MONGODB_URL, MONGODB_USER, MONGODB_PASSWORD, MONGODB_DB, MONGODB_URI } =
+  process.env;
+
+export const setupServer = async () => {
   const app = express();
 
   app.use(express.json());
@@ -21,5 +28,18 @@ export const setupServer = () => {
   app.use(notFoundHandler);
   app.use(errorHandler);
 
-  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  let mongoUri = MONGODB_URI;
+  if (!mongoUri) {
+    mongoUri = `mongodb+srv://${MONGODB_USER}:${MONGODB_PASSWORD}@${MONGODB_URL}/${MONGODB_DB}?retryWrites=true&w=majority`;
+  }
+
+  try {
+    await mongoose.connect(mongoUri);
+    console.log("✅ MongoDB connected successfully!");
+
+    app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+  } catch (error) {
+    console.error("❌ MongoDB connection failed:", error.message);
+    process.exit(1);
+  }
 };
