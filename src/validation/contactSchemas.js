@@ -1,27 +1,25 @@
-const Joi = require("joi");
+import Joi from "joi";
+
 const base = {
   name: Joi.string().min(3).max(20),
   email: Joi.string().email().min(3).max(20),
   phone: Joi.string().min(3).max(20),
   contactType: Joi.string().min(3).max(20),
-  isFavorite: Joi.string().min(3).max(20),
+  isFavourite: Joi.boolean(), // string yerine boolean olmalı
 };
-const createContactSchema = Joi.object({
+
+export const createContactSchema = Joi.object({
   name: base.name.required(),
   email: base.email.required(),
   phone: base.phone.required(),
   contactType: base.contactType.optional(),
-  isFavorite: base.isFavorite.optional(),
+  isFavourite: base.isFavourite.optional(),
 });
-const updateContactSchema = Joi.object({
+
+export const updateContactSchema = Joi.object({
   name: base.name,
   email: base.email,
   phone: base.phone,
   contactType: base.contactType,
   isFavourite: base.isFavourite,
 }).min(1);
-
-module.exports = {
-  createContactSchema,
-  updateContactSchema,
-};

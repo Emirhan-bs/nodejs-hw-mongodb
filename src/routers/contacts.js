@@ -1,4 +1,4 @@
-import { Router } from "express";
+import express from "express";
 import {
   getContactsController,
   getContactByIdController,
@@ -6,14 +6,16 @@ import {
   patchContactController,
   deleteContactController,
 } from "../controllers/contacts.js";
-import { ctrlWrapper } from "../utils/ctrlWrapper.js";
+import { authenticate } from "../middlewares/authenticate.js";
 
-const router = Router();
+const router = express.Router();
 
-router.get("/", ctrlWrapper(getContactsController));
-router.get("/:contactId", ctrlWrapper(getContactByIdController));
-router.post("/", ctrlWrapper(createContactController));
-router.patch("/:contactId", ctrlWrapper(patchContactController));
-router.delete("/:contactId", ctrlWrapper(deleteContactController));
+router.use(authenticate);
+
+router.get("/", getContactsController);
+router.get("/:contactId", getContactByIdController);
+router.post("/", createContactController);
+router.patch("/:contactId", patchContactController);
+router.delete("/:contactId", deleteContactController);
 
 export default router;
