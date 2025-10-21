@@ -7,7 +7,8 @@ import {
   deleteContactController,
 } from "../controllers/contacts.js";
 import { authenticate } from "../middlewares/authenticate.js";
-import { upload } from "../services/cloudinary.js";
+import { upload } from "../middlewares/upload.js";
+
 const router = express.Router();
 
 router.use(authenticate);
