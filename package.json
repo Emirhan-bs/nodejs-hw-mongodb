@@ -21,6 +21,7 @@
   "homepage": "https://github.com/Emirhan-bs/nodejs-hw-mongodb#readme",
   "description": "",
   "dependencies": {
+    "@getbrevo/brevo": "^3.0.1",
     "bcryptjs": "^3.0.2",
     "cloudinary": "^2.7.0",
     "cookie-parser": "^1.4.7",
