@@ -7,8 +7,7 @@ import {
   deleteContactController,
 } from "../controllers/contacts.js";
 import { authenticate } from "../middlewares/authenticate.js";
-import { upload } from "../middlewares/upload.js"; // 🔹 multer middleware eklendi
-
+import { upload } from "../services/cloudinary.js";
 const router = express.Router();
 
 router.use(authenticate);
