@@ -17,9 +17,10 @@ const __dirname = path.dirname(__filename);
 
 dotenv.config({ path: path.resolve(__dirname, "../.env") });
 
+console.log("SMTP_HOST:", process.env.SMTP_HOST);
 console.log("JWT_SECRET VALUE:", process.env.JWT_SECRET);
 
-const PORT = Number(process.env.PORT) || 3000;
+const PORT = process.env.PORT || 3000;
 const { MONGODB_URL, MONGODB_USER, MONGODB_PASSWORD, MONGODB_DB } = process.env;
 
 export const setupServer = async () => {
@@ -36,6 +37,7 @@ export const setupServer = async () => {
 
   app.use("/contacts", contactsRouter);
   app.use("/auth", authRouter);
+
   app.use(notFoundHandler);
   app.use(errorHandler);
 
@@ -44,7 +46,10 @@ export const setupServer = async () => {
   try {
     await mongoose.connect(mongoUri);
     console.log("✅ MongoDB connected successfully!");
-    app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+    });
   } catch (error) {
     console.error("❌ MongoDB connection failed:", error.message);
     process.exit(1);
