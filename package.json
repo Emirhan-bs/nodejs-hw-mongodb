@@ -4,23 +4,11 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "preinstall": "npm install --legacy-peer-deps",
+    "postinstall": "npm install --legacy-peer-deps || true",
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Emirhan-bs/nodejs-hw-mongodb.git"
-  },
-  "keywords": [],
-  "author": "Emirhan Buyuksenirli <emirhanbuyuksenirli@gmail.com> (https://github.com/Emirhan-bs)",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Emirhan-bs/nodejs-hw-mongodb/issues"
-  },
-  "homepage": "https://github.com/Emirhan-bs/nodejs-hw-mongodb#readme",
-  "description": "",
   "dependencies": {
     "@getbrevo/brevo": "^3.0.1",
     "bcryptjs": "^3.0.2",
