@@ -1,0 +1,27 @@
+post:
+  tags:
+    - Auth
+  summary: Kullanıcı kaydı
+  operationId: registerUser
+  description: Yeni bir kullanıcı kaydı oluşturur.
+  security: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required: [email, password]
+          properties:
+            email:
+              type: string
+              format: email
+            password:
+              type: string
+            name:
+              type: string
+  responses:
+    "201":
+      description: Kullanıcı başarıyla oluşturuldu
+    "400":
+      description: Geçersiz istek

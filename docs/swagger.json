@@ -1,0 +1,371 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Contacts API",
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "description": "Kişi yönetimi API'si. Kullanıcılar kişi ekleyebilir, silebilir, güncelleyebilir ve listeleyebilir.\n"
+  },
+  "servers": [
+    {
+      "url": "https://contacts-api.onrender.com",
+      "description": "Üretim ortamı (Render)"
+    },
+    {
+      "url": "http://localhost:3000",
+      "description": "Yerel geliştirme ortamı"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Contacts",
+      "description": "Kişilerle ilgili işlemler"
+    },
+    {
+      "name": "Auth",
+      "description": "Kimlik doğrulama işlemleri"
+    }
+  ],
+  "paths": {
+    "/contacts": {
+      "get": {
+        "tags": [
+          "Contacts"
+        ],
+        "summary": "Kişileri listele",
+        "operationId": "getContacts",
+        "description": "Kişileri sayfalama ve filtrelerle listeler.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Sayfa numarası"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Sayfa başına kayıt sayısı"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Başarılı - kişi listesi"
+          },
+          "401": {
+            "description": "Yetkisiz"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Contacts"
+        ],
+        "summary": "Yeni kişi oluştur",
+        "operationId": "createContact",
+        "description": "Yeni bir kişi kaydı ekler.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "email",
+                  "phone"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "phone": {
+                    "type": "string"
+                  },
+                  "favorite": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Oluşturuldu"
+          },
+          "400": {
+            "description": "Geçersiz istek"
+          }
+        }
+      }
+    },
+    "/contacts/{contactId}": {
+      "get": {
+        "tags": [
+          "Contacts"
+        ],
+        "summary": "Belirli bir kişiyi getir",
+        "operationId": "getContactById",
+        "description": "Verilen contactId'ye göre bir kişiyi döndürür.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "contactId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Başarılı - kişi bulundu"
+          },
+          "404": {
+            "description": "Kişi bulunamadı"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Contacts"
+        ],
+        "summary": "Kişiyi güncelle",
+        "operationId": "updateContact",
+        "description": "Belirli bir kişiyi kısmi olarak günceller.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "contactId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "phone": {
+                    "type": "string"
+                  },
+                  "favorite": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Başarılı - kişi güncellendi"
+          },
+          "400": {
+            "description": "Geçersiz istek"
+          },
+          "404": {
+            "description": "Kişi bulunamadı"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Contacts"
+        ],
+        "summary": "Kişiyi sil",
+        "operationId": "deleteContact",
+        "description": "Belirli bir kişiyi siler.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "contactId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Başarılı - içerik yok"
+          },
+          "404": {
+            "description": "Kişi bulunamadı"
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Kullanıcı kaydı",
+        "operationId": "registerUser",
+        "description": "Yeni bir kullanıcı kaydı oluşturur.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email",
+                  "password"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Kullanıcı başarıyla oluşturuldu"
+          },
+          "400": {
+            "description": "Geçersiz istek"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Kullanıcı girişi",
+        "operationId": "loginUser",
+        "description": "Kullanıcı e-posta ve şifre ile giriş yapar.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email",
+                  "password"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Başarılı giriş, token döner"
+          },
+          "401": {
+            "description": "Yetkisiz giriş"
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Oturum kapatma",
+        "operationId": "logoutUser",
+        "description": "Refresh token’ı temizler ve oturumu sonlandırır.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Oturum başarıyla kapatıldı"
+          },
+          "401": {
+            "description": "Yetkisiz"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

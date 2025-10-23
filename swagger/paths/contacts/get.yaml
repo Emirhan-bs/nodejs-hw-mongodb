@@ -1,0 +1,57 @@
+get:
+  tags:
+    - Contacts
+  summary: Kişileri listele
+  operationId: getContacts
+  description: Kişileri sayfalama ve filtrelerle listeler.
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: page
+      in: query
+      required: false
+      schema:
+        type: integer
+      description: Sayfa numarası
+    - name: limit
+      in: query
+      required: false
+      schema:
+        type: integer
+      description: Sayfa başına kayıt sayısı
+  responses:
+    "200":
+      description: Başarılı - kişi listesi
+    "401":
+      description: Yetkisiz
+
+post:
+  tags:
+    - Contacts
+  summary: Yeni kişi oluştur
+  operationId: createContact
+  description: Yeni bir kişi kaydı ekler.
+  security:
+    - bearerAuth: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required: [name, email, phone]
+          properties:
+            name:
+              type: string
+            email:
+              type: string
+              format: email
+            phone:
+              type: string
+            favorite:
+              type: boolean
+  responses:
+    "201":
+      description: Oluşturuldu
+    "400":
+      description: Geçersiz istek

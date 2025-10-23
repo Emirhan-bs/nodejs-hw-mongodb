@@ -1,0 +1,19 @@
+get:
+  tags:
+    - Contacts
+  summary: Belirli bir kişiyi getir
+  operationId: getContactById
+  description: Verilen contactId'ye göre bir kişiyi döndürür
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: contactId
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    "200":
+      description: Başarılı - kişi bulundu
+    "404":
+      description: Kişi bulunamadı

@@ -1,0 +1,13 @@
+post:
+  tags:
+    - Auth
+  summary: Oturum kapatma
+  operationId: logoutUser
+  description: Refresh token’ı temizler ve oturumu sonlandırır.
+  security:
+    - bearerAuth: []
+  responses:
+    "204":
+      description: Oturum başarıyla kapatıldı
+    "401":
+      description: Yetkisiz

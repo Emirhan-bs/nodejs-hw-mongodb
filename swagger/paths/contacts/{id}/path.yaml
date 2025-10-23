@@ -1,0 +1,76 @@
+get:
+  tags:
+    - Contacts
+  summary: Belirli bir kişiyi getir
+  operationId: getContactById
+  description: Verilen contactId'ye göre bir kişiyi döndürür.
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: contactId
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    "200":
+      description: Başarılı - kişi bulundu
+    "404":
+      description: Kişi bulunamadı
+
+patch:
+  tags:
+    - Contacts
+  summary: Kişiyi güncelle
+  operationId: updateContact
+  description: Belirli bir kişiyi kısmi olarak günceller.
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: contactId
+      in: path
+      required: true
+      schema:
+        type: string
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+            email:
+              type: string
+            phone:
+              type: string
+            favorite:
+              type: boolean
+  responses:
+    "200":
+      description: Başarılı - kişi güncellendi
+    "400":
+      description: Geçersiz istek
+    "404":
+      description: Kişi bulunamadı
+
+delete:
+  tags:
+    - Contacts
+  summary: Kişiyi sil
+  operationId: deleteContact
+  description: Belirli bir kişiyi siler.
+  security:
+    - bearerAuth: []
+  parameters:
+    - name: contactId
+      in: path
+      required: true
+      schema:
+        type: string
+  responses:
+    "204":
+      description: Başarılı - içerik yok
+    "404":
+      description: Kişi bulunamadı

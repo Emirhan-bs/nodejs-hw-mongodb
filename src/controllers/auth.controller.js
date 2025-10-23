@@ -75,7 +75,6 @@ export const resetPasswordController = async (req, res, next) => {
     next(error);
   }
 };
-
 export const registerController = async (req, res, next) => {
   try {
     const user = await registerUser(req.body);

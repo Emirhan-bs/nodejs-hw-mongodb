@@ -1,0 +1,42 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: Contacts API
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  description: >
+    Kişi yönetimi API'si. Kullanıcılar kişi ekleyebilir, silebilir, güncelleyebilir ve listeleyebilir.
+
+tags:
+  - name: Contacts
+    description: Kişilerle ilgili işlemler
+  - name: Auth
+    description: Kimlik doğrulama işlemleri
+
+servers:
+  - url: https://contacts-api.onrender.com
+    description: Üretim ortamı (Render)
+  - url: http://localhost:3000
+    description: Yerel geliştirme ortamı
+
+paths:
+  /contacts:
+    $ref: ../swagger/paths/contacts/get.yaml
+  /contacts/{contactId}:
+    $ref: ../swagger/paths/contacts/{id}/path.yaml
+  /auth/register:
+    $ref: ../swagger/paths/auth/register.yaml
+  /auth/login:
+    $ref: ../swagger/paths/auth/login.yaml
+  /auth/logout:
+    $ref: ../swagger/paths/auth/logout.yaml
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+
+security:
+  - bearerAuth: []

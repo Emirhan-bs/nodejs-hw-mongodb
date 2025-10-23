@@ -1,0 +1,25 @@
+post:
+  tags:
+    - Auth
+  summary: Kullanıcı girişi
+  operationId: loginUser
+  description: Kullanıcı e-posta ve şifre ile giriş yapar.
+  security: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required: [email, password]
+          properties:
+            email:
+              type: string
+              format: email
+            password:
+              type: string
+  responses:
+    "200":
+      description: Başarılı giriş, token döner
+    "401":
+      description: Yetkisiz giriş
